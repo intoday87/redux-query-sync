@@ -22,21 +22,24 @@
   ],
   "main": "lib/redux-query-sync.js",
   "scripts": {
-    "prepare": "babel src -d lib",
-    "watch": "babel src -d lib -w"
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "build:types": "tsc --emitDeclarationOnly",
+    "test": "jest --rootDir --config jest.config.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4"
+    "@types/history": "^4.7.2",
+    "@types/jest": "^24.0.16",
+    "@types/redux": "^3.6.0",
+    "jest": "^24.8.0",
+    "jest-preset-typescript": "^1.2.0",
+    "redux-mock-store": "^1.5.3",
+    "rimraf": "^2.6.3",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "history": "^4.8.0",
     "url-search-params": "0.10.0"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
   }
 }

@@ -1,5 +1,22 @@
-import { createBrowserHistory as createHistory } from 'history';
+import {createBrowserHistory as createHistory, History} from 'history';
 import URLSearchParams from 'url-search-params';
+import {AnyAction, Store} from "redux";
+
+interface Options {
+  store: Store<object>
+  params: {
+    [key: string]: {
+      selector: (state: object) => any
+      action: (any) => AnyAction
+      stringToValue: (string) => any
+      valueToString: (string) => string
+      defaultValue?: any
+    }
+  }
+  replaceState: boolean
+  initialTruth: 'location' | 'store'
+  history?: History
+}
 
 /**
  * Sets up bidirectional synchronisation between a Redux store and window
@@ -34,7 +51,7 @@ function ReduxQuerySync({
     replaceState,
     initialTruth,
     history = createHistory(),
-}) {
+}: Options) {
     const { dispatch } = store
 
     // Two bits of state used to not respond to self-induced updates.
@@ -176,7 +193,7 @@ function ReduxQuerySync({
  *
  * Arguments are equal to those of ReduxQuerySync itself, except that `store` can now be omitted.
  */
-ReduxQuerySync.enhancer = function makeStoreEnhancer(config) {
+ReduxQuerySync.enhancer = function makeStoreEnhancer(config: Exclude<Options, 'store'>) {
     return storeCreator => (reducer, initialState, enhancer) => {
         // Create the store as usual.
         const store = storeCreator(reducer, initialState, enhancer)
